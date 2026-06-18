@@ -1,6 +1,7 @@
-module.exports = function (req, res) {
+import app from '../apps/server/src/index';
+
+export default function (req, res) {
   try {
-    const app = require('../apps/server/dist/index.js').default;
     return app(req, res);
   } catch (err) {
     console.error('🔥 Vercel Runtime Crash:', err);
@@ -14,4 +15,4 @@ module.exports = function (req, res) {
       }
     });
   }
-};
+}
