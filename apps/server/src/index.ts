@@ -112,16 +112,18 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 // ============================================================
 // 서버 시작
 // ============================================================
-app.listen(PORT, () => {
-  console.info(`
-╔══════════════════════════════════════════╗
-║         🎯 OddsLens Server               ║
-╠══════════════════════════════════════════╣
-║  포트:     http://localhost:${PORT}          ║
-║  클라이언트: ${CLIENT_ORIGIN.padEnd(28)}║
-║  모드:     ${IS_MOCK ? '🎭 MOCK (데모)' : '🤖 AI (Gemini)'}                  ║
-╚══════════════════════════════════════════╝
-  `);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.info(`
+  ╔══════════════════════════════════════════╗
+  ║         🎯 OddsLens Server               ║
+  ╠══════════════════════════════════════════╣
+  ║  포트:     http://localhost:${PORT}          ║
+  ║  클라이언트: ${CLIENT_ORIGIN.padEnd(28)}║
+  ║  모드:     ${IS_MOCK ? '🎭 MOCK (데모)' : '🤖 AI (Gemini)'}                  ║
+  ╚══════════════════════════════════════════╝
+    `);
+  });
+}
 
 export default app;
