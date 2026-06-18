@@ -56,15 +56,32 @@ export default function AnalysisCard({ match, index }: Props) {
 
       {/* 선택 픽 강조 */}
       {match.selectedPick && (
-        <div className="mx-4 mb-4 p-3 rounded-xl bg-success/10 border border-success/25">
-          <div className="flex items-center gap-2 text-success text-sm font-semibold">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div className="mx-4 mb-4 p-4 rounded-xl bg-success/10 border border-success/25">
+          <div className="flex items-center gap-2 text-success text-[15px] font-bold mb-3">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>최고 EV 픽: {match.selectedPick.label}</span>
-            <span className="ml-auto font-mono font-bold text-success-light">
-              {formatEV(match.selectedPick.ev)}
+            <span>
+              추천 픽: {' '}
+              {match.selectedPick.label === '홈승' || match.selectedPick.label === 'home'
+                ? `${match.homeTeam} (홈승)`
+                : match.selectedPick.label === '원정승' || match.selectedPick.label === 'away'
+                ? `${match.awayTeam} (원정승)`
+                : match.selectedPick.label}
             </span>
+            <span className="ml-auto font-mono font-black text-success-light bg-success/20 px-2 py-0.5 rounded-lg">
+              EV {formatEV(match.selectedPick.ev)}
+            </span>
+          </div>
+          
+          <div className="text-sm text-navy-100 bg-navy-900/60 p-3.5 rounded-lg border border-success/10 shadow-inner">
+            <div className="flex items-center gap-1.5 mb-1.5 text-success-light font-semibold">
+              <span className="text-base">💡</span>
+              <span>간단 분석 및 선택 이유</span>
+            </div>
+            <p className="leading-relaxed opacity-90 break-keep">
+              {match.selectedPick.reasoning}
+            </p>
           </div>
         </div>
       )}
