@@ -20,7 +20,7 @@ if (!IS_MOCK && !process.env.OPENAI_API_KEY) {
   console.error('❌ OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.');
   console.error('   .env.example 파일을 참고해 .env 파일을 생성해 주세요.');
   console.error('   또는 MOCK=true 설정으로 데모 모드를 사용할 수 있습니다.');
-  process.exit(1);
+  // Vercel Serverless 환경에서는 크래시를 방지하기 위해 exit하지 않음
 }
 
 // ============================================================
