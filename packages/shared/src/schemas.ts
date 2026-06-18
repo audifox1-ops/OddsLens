@@ -130,7 +130,7 @@ export const HealthResponseSchema = z.object({
   status: z.enum(['ok', 'degraded', 'error']),
   version: z.string(),
   timestamp: z.string(),
-  geminiModel: z.string(),
+  openaiModel: z.string(),
   mockMode: z.boolean(),
 });
 

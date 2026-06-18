@@ -16,8 +16,8 @@ const PORT = parseInt(process.env.PORT ?? '8787', 10);
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN ?? 'http://localhost:5173';
 const IS_MOCK = process.env.MOCK === 'true';
 
-if (!IS_MOCK && !process.env.GEMINI_API_KEY) {
-  console.error('❌ GEMINI_API_KEY 환경 변수가 설정되지 않았습니다.');
+if (!IS_MOCK && !process.env.OPENAI_API_KEY) {
+  console.error('❌ OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.');
   console.error('   .env.example 파일을 참고해 .env 파일을 생성해 주세요.');
   console.error('   또는 MOCK=true 설정으로 데모 모드를 사용할 수 있습니다.');
   process.exit(1);
@@ -120,7 +120,7 @@ if (!process.env.VERCEL) {
   ╠══════════════════════════════════════════╣
   ║  포트:     http://localhost:${PORT}          ║
   ║  클라이언트: ${CLIENT_ORIGIN.padEnd(28)}║
-  ║  모드:     ${IS_MOCK ? '🎭 MOCK (데모)' : '🤖 AI (Gemini)'}                  ║
+  ║  모드:     ${IS_MOCK ? '🎭 MOCK (데모)' : '🤖 AI (OpenAI)'}                  ║
   ╚══════════════════════════════════════════╝
     `);
   });

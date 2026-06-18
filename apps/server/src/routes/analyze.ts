@@ -1,7 +1,7 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { upload, handleUploadError } from '../middleware/upload.js';
-import { analyzeImages } from '../services/gemini.js';
+import { analyzeImages } from '../services/openai.js';
 import { generateCombinations } from '../services/odds.js';
 import { getMockAnalysisResult } from '../services/mock.js';
 import { AnalysisResultSchema } from '@oddslens/shared';
@@ -56,7 +56,7 @@ analyzeRouter.post(
           mimeType: f.mimetype,
         }));
 
-        // Gemini로 분석 실행
+        // OpenAI로 분석 실행
         const matches = await analyzeImages(imageBuffers);
 
         if (matches.length === 0) {
