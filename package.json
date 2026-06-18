@@ -6,20 +6,21 @@
   "scripts": {
     "dev": "concurrently --kill-others-on-fail --names \"client,server\" --prefix-colors \"cyan,yellow\" \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
     "build": "pnpm --filter shared build && pnpm --filter server build && pnpm --filter client build",
-    "vercel-build": "pnpm run build && cp -r apps/client/dist dist",
+    "vercel-build": "pnpm run build && shx rm -rf dist && shx cp -r apps/client/dist dist",
     "lint": "pnpm --recursive lint",
     "test": "pnpm --recursive test",
     "typecheck": "pnpm --recursive typecheck",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\" --ignore-path .prettierignore"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.4",
+    "@oddslens/shared": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.1",
-    "@oddslens/shared": "workspace:*"
+    "prettier": "^3.3.3",
+    "shx": "^0.4.0",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "compression": "^1.7.4",
