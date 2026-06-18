@@ -1,0 +1,32 @@
+{
+  "name": "oddslens",
+  "version": "1.0.0",
+  "private": true,
+  "description": "스포츠 배당 스크린샷 AI 분석 앱",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail --names \"client,server\" --prefix-colors \"cyan,yellow\" \"pnpm --filter client dev\" \"pnpm --filter server dev\"",
+    "build": "pnpm --filter shared build && pnpm --filter server build && pnpm --filter client build",
+    "lint": "pnpm --recursive lint",
+    "test": "pnpm --recursive test",
+    "typecheck": "pnpm --recursive typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\" --ignore-path .prettierignore"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "prettier": "^3.3.3",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@google/genai",
+      "esbuild",
+      "protobufjs"
+    ]
+  }
+}
