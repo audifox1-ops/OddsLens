@@ -6,7 +6,7 @@ import {
   type MatchAnalysis,
   type ProbabilityResult,
 } from '@oddslens/shared';
-import { calculateOdds } from './odds.js';
+import { calculateOdds } from './odds';
 
 const OPENAI_MODEL = process.env.OPENAI_MODEL ?? 'gpt-4o';
 

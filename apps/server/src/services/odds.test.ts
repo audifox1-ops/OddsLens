@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateOdds, generateCombinations } from './odds.js';
+import { calculateOdds, generateCombinations } from './odds';
 import type { MatchAnalysis } from '@oddslens/shared';
 
 describe('calculateOdds', () => {

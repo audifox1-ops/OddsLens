@@ -5,8 +5,8 @@ import morgan from 'morgan';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 
-import { analyzeRouter } from './routes/analyze.js';
-import { healthRouter } from './routes/health.js';
+import { analyzeRouter } from './routes/analyze';
+import { healthRouter } from './routes/health';
 
 // ============================================================
 // 환경 변수 검증

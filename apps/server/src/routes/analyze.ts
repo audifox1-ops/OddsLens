@@ -1,9 +1,9 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { upload, handleUploadError } from '../middleware/upload.js';
-import { analyzeImages } from '../services/openai.js';
-import { generateCombinations } from '../services/odds.js';
-import { getMockAnalysisResult } from '../services/mock.js';
+import { upload, handleUploadError } from '../middleware/upload';
+import { analyzeImages } from '../services/openai';
+import { generateCombinations } from '../services/odds';
+import { getMockAnalysisResult } from '../services/mock';
 import { AnalysisResultSchema } from '@oddslens/shared';
 import { DISCLAIMER_TEXT } from '@oddslens/shared';
 
