@@ -106,6 +106,7 @@ export const AnalysisResultSchema = z.object({
   id: z.string().describe('분석 결과 고유 ID'),
   createdAt: z.string().describe('분석 일시 (ISO 8601)'),
   matches: z.array(MatchAnalysisSchema).min(1),
+  topPick: ComboPick.nullable().optional().describe('전체 경기 중 최고 가치 단일 픽'),
   recommendations: z.array(ComboRecommendationSchema).min(1).max(3),
   isMock: z.boolean().default(false).describe('목업 데이터 여부'),
   disclaimer: z.string().describe('전체 면책 고지'),

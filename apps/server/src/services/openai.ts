@@ -116,16 +116,18 @@ export async function generateProbabilityAnalysis(
     .map((o, i) => `${i + 1}. ${o.label}: 배당 ${o.odds}, 공정확률 ${(o.fairProbability * 100).toFixed(1)}%`)
     .join('\n');
 
-  const prompt = `당신은 스포츠 분석 전문가입니다.
+  const prompt = `당신은 프로 스포츠 베터이자 "가치 베팅(Value Betting)" 전문가입니다.
 
 경기: ${matchName} (${sport})
 - 홈팀: ${homeTeam}
 - 원정팀: ${awayTeam}
 
-배당사가 제시한 공정확률:
+배당사가 제시한 공정확률 (환급률 마진이 제거된 북메이커의 예측치):
 ${optionsList}
 
-당신의 지식을 바탕으로 각 팀의 전력, 과거 전적, 성향 등을 분석하여 각 결과의 실제 발생 확률을 추정해 주세요.
+당신의 임무는 북메이커의 배당(공정확률)이 잘못 책정된 "오류 배당(Value)"을 찾아내는 것입니다.
+각 팀의 전력, 최근 전적, 부상자, 동기부여 등을 분석하여 각 결과의 '실제 발생 확률(True Probability)'을 추정하세요.
+만약 당신의 추정 확률이 공정확률보다 높다면, 그것이 바로 가치 베팅 대상(+EV)입니다.
 
 반드시 다음 형식의 JSON 객체로 응답하세요:
 {
@@ -133,7 +135,7 @@ ${optionsList}
     {
       "optionIndex": 0,
       "modelProbability": 0.52,
-      "reasoning": "최근 5경기 분석 및 부상 상황 고려...",
+      "reasoning": "[가치 평가] 북메이커는 홈승을 45%로 보지만, 핵심 선수 복귀 및 홈 이점으로 인해 실제 승률은 52%로 추정됨...",
       "sources": ["자체 분석", "과거 통계"],
       "confidence": "medium"
     }
@@ -141,10 +143,10 @@ ${optionsList}
 }
 
 중요:
-- 확률 합계가 반드시 1.0이 될 필요는 없습니다 (독립 추정)
-- confidence는 분석의 확실성 기반으로 설정 (high/medium/low)
-- "무조건", "확실", "보장" 같은 표현을 사용하지 마세요
-- 이는 추정치임을 reasoning에 명시하세요`;
+- 확률 합계가 반드시 1.0이 될 필요는 없습니다 (독립 추정).
+- confidence는 분석의 확실성 기반으로 설정 (high/medium/low).
+- 기댓값(EV)이 플러스(+)가 될 만한 옵션을 발견하면 reasoning에 그 근거를 명확히 서술하세요.
+- 북메이커의 확률이 정확하다고 판단되면 modelProbability를 공정확률과 비슷하게 설정하세요.`;
 
   const ResultSchema = z.object({
     results: z.array(z.object({
@@ -273,4 +275,31 @@ export async function analyzeImages(
   }
 
   return matchAnalyses;
+}
+
+export function extractTopPick(matchAnalyses: MatchAnalysis[]) {
+  let bestPick = null;
+  let maxEV = 0; // 최소 EV 조건: 0 이상이어야 함 (+EV)
+
+  for (const match of matchAnalyses) {
+    if (match.selectedPick && match.selectedPick.ev > maxEV) {
+      // 신뢰도가 너무 낮은 것은 제외할 수도 있지만, 현재는 최고 EV 기준
+      if (match.selectedPick.confidence !== 'low') {
+        maxEV = match.selectedPick.ev;
+        bestPick = {
+          matchName: match.matchName,
+          homeTeam: match.homeTeam,
+          awayTeam: match.awayTeam,
+          pick: match.selectedPick.label,
+          odds: match.selectedPick.odds,
+          modelProbability: match.selectedPick.modelProbability,
+          ev: match.selectedPick.ev,
+          confidence: match.selectedPick.confidence,
+          reasoning: match.selectedPick.reasoning,
+        };
+      }
+    }
+  }
+
+  return bestPick;
 }

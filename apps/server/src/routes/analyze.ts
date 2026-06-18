@@ -73,12 +73,17 @@ analyzeRouter.post(
 
         // 조합 추천 생성
         const recommendations = generateCombinations(matches);
+        
+        // 전체 Top Pick 추출
+        const { extractTopPick } = require('../services/openai');
+        const topPick = extractTopPick(matches);
 
         // 최종 결과 구성
         result = {
           id: uuidv4(),
           createdAt: new Date().toISOString(),
           matches,
+          topPick,
           recommendations,
           isMock: false,
           disclaimer: DISCLAIMER_TEXT.main,

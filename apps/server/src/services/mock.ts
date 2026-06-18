@@ -183,6 +183,17 @@ export function getMockAnalysisResult(): AnalysisResult {
         },
       },
     ],
+    topPick: {
+      matchName: '토트넘 홋스퍼 vs 아스톤 빌라',
+      homeTeam: '토트넘 홋스퍼',
+      awayTeam: '아스톤 빌라',
+      pick: '홈승',
+      odds: 2.10,
+      modelProbability: 0.55,
+      ev: 0.155,
+      confidence: 'high',
+      reasoning: '핵심 공격수 부상 복귀로 인한 득점력 상승 기대. 배당률 대비 승리 확률이 매우 높게 평가됨 (+EV 가치 베팅).',
+    },
     recommendations: [
       {
         type: 'stable',

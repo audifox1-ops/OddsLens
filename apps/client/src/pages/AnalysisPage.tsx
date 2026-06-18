@@ -4,6 +4,7 @@ import UploadZone from '../components/upload/UploadZone';
 import ProgressStepper from '../components/analysis/ProgressStepper';
 import AnalysisCard from '../components/analysis/AnalysisCard';
 import ComboCard from '../components/analysis/ComboCard';
+import TopPickCard from '../components/analysis/TopPickCard';
 import ErrorCard from '../components/analysis/ErrorCard';
 import DisclaimerBar from '../components/analysis/DisclaimerBar';
 
@@ -100,13 +101,16 @@ export default function AnalysisPage() {
             </button>
           </div>
 
+          {/* 가치 베팅 최고 추천 픽 (Top Pick) */}
+          <TopPickCard topPick={result.topPick ?? null} />
+
           {/* 경기별 분석 카드 */}
           <div className="space-y-4">
             <h3 className="font-semibold text-navy-200 flex items-center gap-2">
               <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              경기별 배당 분석
+              개별 경기 배당 상세 분석
             </h3>
             {result.matches.map((match, i) => (
               <AnalysisCard key={i} match={match} index={i} />
