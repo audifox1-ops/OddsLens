@@ -59,6 +59,8 @@ export async function extractOddsFromImages(
       "homeTeam": "홈팀명",
       "awayTeam": "원정팀명",
       "sport": "축구",
+      "league": "리그명 (예: 프리미어리그)",
+      "matchDate": "날짜 및 시간 (예: 10/24 19:30)",
       "options": [
         { "label": "홈승", "odds": 1.85, "type": "home" }
       ]
@@ -135,8 +137,8 @@ ${optionsList}
     {
       "optionIndex": 0,
       "modelProbability": 0.52,
-      "reasoning": "[가치 평가] 북메이커는 홈승을 45%로 보지만, 핵심 선수 복귀 및 홈 이점으로 인해 실제 승률은 52%로 추정됨...",
-      "sources": ["자체 분석", "과거 통계"],
+      "reasoning": "[가치 평가] 북메이커는 홈승을 45%로 보지만, 최근 5경기 무패 행진 및 홈팀의 핵심 공격수(예: 손흥민) 출전 예상 등 전력 우위를 고려할 때 실제 승률은 52%로 추정됨...",
+      "sources": ["최근 5경기 전적 데이터", "부상자 명단", "홈/어웨이 상대전적 통계"],
       "confidence": "medium"
     }
   ]
@@ -145,7 +147,8 @@ ${optionsList}
 중요:
 - 확률 합계가 반드시 1.0이 될 필요는 없습니다 (독립 추정).
 - confidence는 분석의 확실성 기반으로 설정 (high/medium/low).
-- 기댓값(EV)이 플러스(+)가 될 만한 옵션을 발견하면 reasoning에 그 근거를 명확히 서술하세요.
+- 기댓값(EV)이 플러스(+)가 될 만한 옵션을 발견하면 reasoning에 구체적인 전력 비교 데이터(최근 성적, 득점력 등)를 명확히 서술하세요.
+- sources 배열에는 단순히 "자체 분석"이라고 적지 말고, "최근 전적", "팀 부상자 리스트", "상대 전적 통계" 등 어떤 데이터에 기반했는지 구체적으로 적으세요.
 - 북메이커의 확률이 정확하다고 판단되면 modelProbability를 공정확률과 비슷하게 설정하세요.`;
 
   const ResultSchema = z.object({

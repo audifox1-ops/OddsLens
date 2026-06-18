@@ -42,29 +42,64 @@ export default function AnalysisCard({ match, index }: Props) {
 
       {/* 배당 옵션 목록 */}
       <div className="p-4 space-y-3">
-        {match.options.map((option, i) => (
-          <OddsOptionRow
-            key={i}
-            option={option}
-            isSelected={match.selectedPick?.label === option.label}
-            isExpanded={expanded === option.label}
-            onToggle={() => setExpanded(expanded === option.label ? null : option.label)}
-            formatEV={formatEV}
-          />
-        ))}
+        {match.options.map((option, i) => {
+          let displayLabel = option.label;
+          if (option.label === '홈승' || option.label === 'home') displayLabel = `${match.homeTeam} (홈승)`;
+          if (option.label === '원정승' || option.label === 'away') displayLabel = `${match.awayTeam} (원정승)`;
+
+          return (
+            <OddsOptionRow
+              key={i}
+              option={option}
+              displayLabel={displayLabel}
+              isSelected={match.selectedPick?.label === option.label}
+              isExpanded={expanded === option.label}
+              onToggle={() => setExpanded(expanded === option.label ? null : option.label)}
+              formatEV={formatEV}
+            />
+          );
+        })}
       </div>
 
       {/* 최고 EV 옵션 하이라이트 (추천 아님) */}
       {match.selectedPick && match.selectedPick.ev > 0 && (
-        <div className="mx-4 mb-4 p-3 rounded-xl bg-accent/5 border border-accent/20">
-          <div className="flex items-center gap-2 text-accent-light text-sm font-semibold">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        <div className="mx-4 mb-4 p-4 rounded-xl bg-accent/5 border border-accent/20">
+          <div className="flex items-center gap-2 text-accent-light text-sm font-semibold mb-3">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span>경기 내 최고 EV: {match.selectedPick.label}</span>
-            <span className="ml-auto font-mono font-bold text-accent-light">
+            <span>
+              경기 내 최고 가치 옵션: {' '}
+              {match.selectedPick.label === '홈승' || match.selectedPick.label === 'home'
+                ? `${match.homeTeam} (홈승)`
+                : match.selectedPick.label === '원정승' || match.selectedPick.label === 'away'
+                ? `${match.awayTeam} (원정승)`
+                : match.selectedPick.label}
+            </span>
+            <span className="ml-auto font-mono font-bold text-accent-light bg-accent/10 px-2 py-0.5 rounded-lg">
               EV {formatEV(match.selectedPick.ev)}
             </span>
+          </div>
+
+          <div className="text-sm text-navy-100 bg-navy-900/60 p-3.5 rounded-lg border border-accent/10 shadow-inner">
+            <div className="flex items-center gap-1.5 mb-2 text-accent-light font-semibold">
+              <span className="text-base">📊</span>
+              <span>분석 데이터 출처 및 근거</span>
+            </div>
+            
+            {match.selectedPick.sources && match.selectedPick.sources.length > 0 && (
+              <div className="mb-2 flex flex-wrap gap-1.5">
+                {match.selectedPick.sources.map((src, i) => (
+                  <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-navy-800 text-navy-300 border border-navy-700">
+                    {src}
+                  </span>
+                ))}
+              </div>
+            )}
+            
+            <p className="leading-relaxed opacity-90 break-keep">
+              {match.selectedPick.reasoning}
+            </p>
           </div>
         </div>
       )}
@@ -74,12 +109,14 @@ export default function AnalysisCard({ match, index }: Props) {
 
 function OddsOptionRow({
   option,
+  displayLabel,
   isSelected,
   isExpanded,
   onToggle,
   formatEV,
 }: {
   option: ProbabilityResult;
+  displayLabel: string;
   isSelected: boolean;
   isExpanded: boolean;
   onToggle: () => void;
@@ -105,7 +142,7 @@ function OddsOptionRow({
             {isSelected && (
               <span className="w-2 h-2 rounded-full bg-success animate-pulse flex-shrink-0" />
             )}
-            <span className="font-semibold text-sm text-white">{option.label}</span>
+            <span className="font-semibold text-sm text-white">{displayLabel}</span>
             {/* 신뢰도 */}
             <span className={clsx(
               'text-xs px-1.5 py-0.5 rounded-full',
@@ -184,9 +221,6 @@ function OddsOptionRow({
               </div>
             </div>
           )}
-          <p className="text-[10px] text-navy-500 italic">
-            ⚠️ 이 수치는 모델의 추정치이며, 독립사건을 가정합니다. 실제 결과를 보장하지 않습니다.
-          </p>
         </div>
       )}
     </div>
