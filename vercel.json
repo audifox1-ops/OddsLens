@@ -6,8 +6,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/apps/client/dist/$1"
+      "destination": "/index.html"
     }
-  ],
-  "outputDirectory": "apps/client/dist"
+  ]
 }
